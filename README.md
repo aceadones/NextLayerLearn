@@ -1,14 +1,14 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=121212&height=180&section=header&text=NextLayer%20Learn&fontSize=50&fontColor=c4c2a6&fontAlignY=40&desc=A%20voice-first%20learning%20app%20for%20Indian%20regional%20users&descAlignY=65&descSize=16&animation=fadeIn" alt="NextLayer Learn header" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=121922&height=180&section=header&text=NextLayer%20Learn&fontSize=50&fontColor=A3BBD9&fontAlignY=40&desc=A%20voice-first%20learning%20app%20for%20Indian%20regional%20users&descAlignY=65&descSize=16&animation=fadeIn" alt="NextLayer Learn header" width="100%"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Hanken+Grotesk&weight=400&size=20&duration=3000&pause=800&color=c4c2a6&center=true&vCenter=true&width=600&lines=Speak+%E2%80%A2+Learn+%E2%80%A2+Translate;Native+language+learning+made+simple;Powered+by+Sarvam+AI" alt="Animated tagline"/>
+<img src="https://readme-typing-svg.demolab.com?font=Hanken+Grotesk&weight=400&size=20&duration=3000&pause=800&color=A3BBD9&center=true&vCenter=true&width=600&lines=Speak+%E2%80%A2+Learn+%E2%80%A2+Translate;Native+language+learning+made+simple;Powered+by+Sarvam+AI" alt="Animated tagline"/>
 
 <br/>
 
-[![React Native](https://img.shields.io/badge/React_Native-0.84-121212?style=for-the-badge&logo=react&logoColor=c4c2a6&labelColor=000000)](https://reactnative.dev/)
-[![Node](https://img.shields.io/badge/Node-%E2%89%A522.11-121212?style=for-the-badge&logo=nodedotjs&logoColor=c4c2a6&labelColor=000000)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-5-121212?style=for-the-badge&logo=express&logoColor=c4c2a6&labelColor=000000)](https://expressjs.com/)
+[![React Native](https://img.shields.io/badge/React_Native-0.84-121212?style=for-the-badge&logo=react&logoColor=A3BBD9&labelColor=000000)](https://reactnative.dev/)
+[![Node](https://img.shields.io/badge/Node-%E2%89%A522.11-121212?style=for-the-badge&logo=nodedotjs&logoColor=A3BBD9&labelColor=000000)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-121212?style=for-the-badge&logo=express&logoColor=A3BBD9&labelColor=000000)](https://expressjs.com/)
 
 </div>
 
@@ -162,7 +162,7 @@ npm run android
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=121212&height=60&section=footer&animation=fadeIn" alt="Footer" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=121922&height=60&section=footer&animation=fadeIn" alt="Footer" width="100%"/>
 
 **[NextLayer Labs](https://nextlayer-labs.web.app/)** • Building intelligent software systems.
 
