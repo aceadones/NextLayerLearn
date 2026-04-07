@@ -39,4 +39,9 @@ if ! adb devices 2>/dev/null | grep -qE 'device$|emulator-'; then
   exit 1
 fi
 
+# Phone/emulator reaches your Mac's Metro + backend via device localhost → host ports.
+for port in 3000 8081; do
+  adb reverse "tcp:${port}" "tcp:${port}" 2>/dev/null || true
+done
+
 exec npx react-native run-android "$@"

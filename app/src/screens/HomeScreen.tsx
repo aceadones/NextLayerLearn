@@ -3,38 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } fr
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAppStore } from '../store/useAppStore';
 import { sarvamSTT } from '../services/sarvamSTT';
-import { sarvamChat } from '../services/sarvamChat';
-import { sarvamTTS } from '../services/sarvamTTS';
 import { useAudio } from '../hooks/useAudio';
+import { useTeachingPipeline } from '../hooks/useTeachingPipeline';
 import { getErrorMessage } from '../utils/errors';
 
 export const HomeScreen = () => {
   const language = useAppStore((s) => s.language);
-  const addMessage = useAppStore((s) => s.addMessage);
   const isLoading = useAppStore((s) => s.isLoading);
   const setIsLoading = useAppStore((s) => s.setIsLoading);
 
   const { startRecording, stopRecording, playAudio, isRecording } = useAudio();
+  const { teachFromUserText, runLesson } = useTeachingPipeline(playAudio);
   const [transcribedText, setTranscribedText] = useState('');
-
-  const teachFromUserText = async (userText: string) => {
-    const historySnapshot = useAppStore.getState().chatHistory;
-    const lang = useAppStore.getState().language;
-
-    const responseText = await sarvamChat(userText, lang, historySnapshot);
-    if (!responseText) {
-      Alert.alert('No reply', 'The teacher did not return an answer. Please try again.');
-      return;
-    }
-
-    addMessage({ role: 'user', content: userText });
-    addMessage({ role: 'assistant', content: responseText });
-
-    const audioBase64 = await sarvamTTS(responseText, lang);
-    if (audioBase64) {
-      await playAudio(audioBase64);
-    }
-  };
 
   const handleRecordPress = async () => {
     if (isRecording) {
@@ -69,10 +49,7 @@ export const HomeScreen = () => {
       return;
     }
     setTranscribedText('');
-    setIsLoading(true);
-    teachFromUserText(prompt)
-      .catch((error) => Alert.alert('Error', getErrorMessage(error)))
-      .finally(() => setIsLoading(false));
+    void runLesson(prompt);
   };
 
   return (

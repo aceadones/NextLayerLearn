@@ -142,21 +142,32 @@ SARVAM_API_KEY=your_key_here
 
 ### Run Locally
 
-**1. Start the Backend Proxy:**
+**1. Start the backend proxy** (keeps your Sarvam key off the device):
+
 ```bash
 cd backend
 npm install
 npm start
 ```
 
-**2. Start the App:**
+**2. Start Metro** (JavaScript bundler):
+
 ```bash
 cd app
 npm install
 npm start
-# In a new terminal:
-npm run android
 ```
+
+**3. Run on Android** (emulator running or USB device authorized):
+
+```bash
+cd app
+npm run android:studio
+```
+
+`android:studio` sets `JAVA_HOME`, `ANDROID_HOME`, and `PATH` so `adb` and Gradle work even when your shell is not configured. If Gradle cannot find Node from Android Studio, set `NODE_BINARY` in `app/android/gradle.properties` (see the commented example there).
+
+Plain `npm run android` works once `java`, `adb`, and an emulator are on your `PATH`.
 
 <br/>
 
