@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, ScrollView, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 import { useAppStore } from '../store/useAppStore';
 import { sarvamSTT } from '../services/sarvamSTT';
 import { useAudio } from '../hooks/useAudio';
 import { useTeachingPipeline } from '../hooks/useTeachingPipeline';
 import { getErrorMessage } from '../utils/errors';
+import { Typography } from '../components/ui/Typography';
+import { HoldToSpeakButton } from '../components/ui/HoldToSpeakButton';
+import { Card } from '../components/ui/Card';
+import { t } from '../utils/localization';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const HomeScreen = () => {
-  const language = useAppStore((s) => s.language);
-  const isLoading = useAppStore((s) => s.isLoading);
-  const setIsLoading = useAppStore((s) => s.setIsLoading);
-
+  const { language, userName, isLoading, setIsLoading, highContrast } = useAppStore();
   const { startRecording, stopRecording, playAudio, isRecording } = useAudio();
   const { teachFromUserText, runLesson } = useTeachingPipeline(playAudio);
-  const [transcribedText, setTranscribedText] = useState('');
 
-  const handleRecordPress = async () => {
-    if (isRecording) {
-      const audioUri = await stopRecording();
-      if (audioUri) {
-        await processRecordedAudio(audioUri);
-      }
-    } else {
-      await startRecording();
+  const handlePressIn = async () => {
+    await startRecording();
+  };
+
+  const handlePressOut = async () => {
+    const audioUri = await stopRecording();
+    if (audioUri) {
+      await processRecordedAudio(audioUri);
     }
   };
 
@@ -31,9 +31,8 @@ export const HomeScreen = () => {
     setIsLoading(true);
     try {
       const text = await sarvamSTT(audioUri, language);
-      setTranscribedText(text);
       if (!text) {
-        Alert.alert('Did not hear clearly', 'Please tap the mic and speak again.');
+        Alert.alert('Did not hear clearly', 'Please hold the mic and speak again.');
         return;
       }
       await teachFromUserText(text);
@@ -45,151 +44,97 @@ export const HomeScreen = () => {
   };
 
   const onQuickAction = (prompt: string) => {
-    if (isLoading || isRecording) {
-      return;
-    }
-    setTranscribedText('');
+    if (isLoading || isRecording) return;
     void runLesson(prompt);
   };
 
+  const topics = [
+    { id: 'english', label: t('learnEnglish', language), prompt: 'Teach me very simple English. One short step at a time.' },
+    { id: 'phone', label: t('useYourPhone', language), prompt: 'Teach me phone basics: calls, messages, and battery. Very simple words.' },
+    { id: 'ai', label: t('learnAI', language), prompt: 'Explain what AI is in very simple words.' },
+    { id: 'fix', label: t('fixThings', language), prompt: 'Give me simple tips to fix things at home.' },
+  ];
+
+  const recentConversations = useAppStore(s => s.chatHistory).slice(-2).reverse();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>What do you want to learn today?</Text>
-      </View>
-
-      <View style={styles.quickActions}>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() =>
-            onQuickAction(
-              'Teach me very simple English. One short step at a time. Start with a greeting.'
-            )
-          }
-        >
-          <Text style={styles.actionText}>Learn English</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() =>
-            onQuickAction(
-              'Teach me phone basics: calls, messages, and battery. Very simple words, step by step.'
-            )
-          }
-        >
-          <Text style={styles.actionText}>Phone basics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => onQuickAction('I have a question. Please answer in very simple words.')}
-        >
-          <Text style={styles.actionText}>Ask anything</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.recordContainer}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#1f6feb" />
-        ) : (
-          <TouchableOpacity
-            style={[styles.recordButton, isRecording && styles.recordingButton]}
-            onPress={handleRecordPress}
-            accessibilityRole="button"
-            accessibilityLabel={isRecording ? 'Stop recording' : 'Start recording'}
-          >
-            <Icon name={isRecording ? 'stop' : 'microphone'} size={64} color="white" />
+    <View className="flex-1 bg-background">
+      <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 100 }}>
+        {/* Header */}
+        <View className="flex-row justify-between items-center mb-8">
+          <TouchableOpacity className="p-2">
+            <Icon name="menu" size={32} color={highContrast ? '#ffffff' : '#A3BBD9'} />
           </TouchableOpacity>
-        )}
-        <Text style={styles.recordHint}>{isRecording ? 'Tap to stop' : 'Tap to speak'}</Text>
-      </View>
-
-      {transcribedText ? (
-        <View style={styles.transcriptContainer}>
-          <Text style={styles.transcriptText}>You said: {transcribedText}</Text>
+          <Typography variant="h2" className="text-primary font-bold">
+            NextLayer Learn
+          </Typography>
+          <TouchableOpacity className="p-2">
+            <Icon name="account-circle" size={32} color={highContrast ? '#ffffff' : '#A3BBD9'} />
+          </TouchableOpacity>
         </View>
-      ) : null}
+
+        {/* Greeting */}
+        <View className="mb-8">
+          <Typography variant="h1" className="mb-2">
+            {t('hello', language)} {userName ? userName : ''}!
+          </Typography>
+        </View>
+
+        {/* Topics Row */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-12 overflow-visible">
+          {topics.map((topic) => (
+            <TouchableOpacity
+              key={topic.id}
+              onPress={() => onQuickAction(topic.prompt)}
+              className={`mr-4 px-6 py-4 rounded-full border-2 ${highContrast ? 'border-white bg-gray-900' : 'border-primary bg-card'}`}
+            >
+              <Typography variant="h3" className={highContrast ? 'text-white' : 'text-primary'}>
+                {topic.label}
+              </Typography>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Main Mic Button */}
+        <View className="items-center justify-center my-8">
+          {isLoading ? (
+            <View className="items-center justify-center h-32">
+              <ActivityIndicator size="large" color={highContrast ? '#ffffff' : '#A3BBD9'} />
+              <Typography variant="h3" className="mt-4 opacity-80">Thinking...</Typography>
+            </View>
+          ) : (
+            <View className="items-center">
+              <Typography variant="h2" className="text-center mb-8 opacity-90">
+                {t('holdToSpeak', language)}
+              </Typography>
+              <HoldToSpeakButton
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
+                isRecording={isRecording}
+                size={140}
+              />
+            </View>
+          )}
+        </View>
+
+        {/* Recent Conversations */}
+        {recentConversations.length > 0 && (
+          <View className="mt-12">
+            <Typography variant="h2" className="mb-6 opacity-80">
+              {t('recentConversations', language)}
+            </Typography>
+            {recentConversations.map((msg, idx) => (
+              <Card
+                key={idx}
+                title={msg.role === 'user' ? 'You said' : 'Teacher said'}
+                subtitle={msg.content}
+                className="mb-4"
+                icon={<Icon name={msg.role === 'user' ? 'account' : 'robot'} size={24} color={highContrast ? '#ffffff' : '#A3BBD9'} />}
+              />
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f6f8fa',
-    padding: 20,
-  },
-  header: {
-    marginTop: 12,
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: '#24292f',
-    textAlign: 'center',
-  },
-  quickActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    marginBottom: 24,
-    gap: 10,
-  },
-  actionButton: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    borderRadius: 14,
-    marginBottom: 8,
-    minWidth: '30%',
-    borderWidth: 2,
-    borderColor: '#d0d7de',
-    flexGrow: 1,
-  },
-  actionText: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#0969da',
-    textAlign: 'center',
-  },
-  recordContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  recordButton: {
-    width: 128,
-    height: 128,
-    borderRadius: 64,
-    backgroundColor: '#1f6feb',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-  },
-  recordingButton: {
-    backgroundColor: '#cf222e',
-  },
-  recordHint: {
-    marginTop: 20,
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#57606a',
-  },
-  transcriptContainer: {
-    marginTop: 12,
-    padding: 16,
-    backgroundColor: '#ddf4ff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#54aeff66',
-  },
-  transcriptText: {
-    fontSize: 18,
-    color: '#24292f',
-    fontWeight: '500',
-  },
-});
