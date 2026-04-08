@@ -6,9 +6,9 @@
 
 <br/>
 
-[![React Native](https://img.shields.io/badge/React_Native-0.84-121212?style=for-the-badge&logo=react&logoColor=A3BBD9&labelColor=000000)](https://reactnative.dev/)
-[![Node](https://img.shields.io/badge/Node-%E2%89%A522.11-121212?style=for-the-badge&logo=nodedotjs&logoColor=A3BBD9&labelColor=000000)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-5-121212?style=for-the-badge&logo=express&logoColor=A3BBD9&labelColor=000000)](https://expressjs.com/)
+[![React Native](https://img.shields.io/badge/React_Native-0.84-121922?style=for-the-badge&logo=react&logoColor=A3BBD9&labelColor=000000)](https://reactnative.dev/)
+[![Node](https://img.shields.io/badge/Node-%E2%89%A522.11-121922?style=for-the-badge&logo=nodedotjs&logoColor=A3BBD9&labelColor=000000)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-121922?style=for-the-badge&logo=express&logoColor=A3BBD9&labelColor=000000)](https://expressjs.com/)
 
 </div>
 

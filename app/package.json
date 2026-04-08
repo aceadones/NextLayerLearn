@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "android:studio": "bash ./scripts/run-android.sh",
+    "android:studio:dev": "bash ./scripts/run-android.sh --no-packager",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",

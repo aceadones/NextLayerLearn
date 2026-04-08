@@ -8,4 +8,6 @@ const BACKEND_URL =
 
 export const apiClient = axios.create({
   baseURL: BACKEND_URL,
+  // STT/TTS/Sarvam can take a while; avoid infinite spinners on slow networks
+  timeout: 120_000,
 });

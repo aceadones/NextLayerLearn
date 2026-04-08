@@ -1,12 +1,14 @@
 import { apiClient } from './api';
+import { getAudioMultipartDescriptor } from '../utils/audioUpload';
 
 export const sarvamSTT = async (audioUri: string, language: string = 'hi-IN'): Promise<string> => {
   try {
     const formData = new FormData();
+    const part = getAudioMultipartDescriptor(audioUri);
     formData.append('file', {
-      uri: audioUri,
-      type: 'audio/wav',
-      name: 'audio.wav',
+      uri: part.uri,
+      type: part.type,
+      name: part.name,
     } as any);
     formData.append('language', language);
 

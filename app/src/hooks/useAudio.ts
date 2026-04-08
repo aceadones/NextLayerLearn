@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Sound from 'react-native-nitro-sound';
-import { Platform, PermissionsAndroid } from 'react-native';
+import { Platform, PermissionsAndroid, Alert } from 'react-native';
 import RNFS from 'react-native-fs';
 
 function isLocalAudioPath(uri: string): boolean {
@@ -53,6 +53,10 @@ export const useAudio = () => {
   const startRecording = async () => {
     const hasPermission = await requestPermissions();
     if (!hasPermission) {
+      Alert.alert(
+        'Microphone needed',
+        'Please allow microphone access in Settings so the app can hear you.'
+      );
       return;
     }
 

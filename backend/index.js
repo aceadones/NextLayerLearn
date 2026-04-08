@@ -29,6 +29,18 @@ if (!SARVAM_API_KEY) {
 // Multer setup for audio file uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
+const SARVAM_HTTP_TIMEOUT_MS = Number(process.env.SARVAM_HTTP_TIMEOUT_MS || 120000);
+
+function guessAudioContentType(filename, mimetype) {
+  const n = (filename || '').toLowerCase();
+  if (n.endsWith('.mp4') || n.endsWith('.m4a')) return 'audio/mp4';
+  if (n.endsWith('.wav')) return 'audio/wav';
+  if (n.endsWith('.aac')) return 'audio/aac';
+  if (n.endsWith('.3gp')) return 'audio/3gpp';
+  if (mimetype && mimetype !== 'application/octet-stream') return mimetype;
+  return 'audio/mp4';
+}
+
 // 1. STT (Speech to Text)
 app.post('/stt', upload.single('file'), async (req, res) => {
   try {
@@ -36,17 +48,24 @@ app.post('/stt', upload.single('file'), async (req, res) => {
       return res.status(400).json({ error: 'No audio file provided' });
     }
 
+    if (!req.file.buffer?.length) {
+      return res.status(400).json({ error: 'Empty audio file. Record a bit longer, then stop.' });
+    }
+
     const language = req.body.language || req.body.language_code || 'hi-IN';
 
     const formData = new FormData();
+    const origName = req.file.originalname || 'recording.mp4';
+    const contentType = guessAudioContentType(origName, req.file.mimetype);
     formData.append('file', req.file.buffer, {
-      filename: req.file.originalname || 'audio.wav',
-      contentType: req.file.mimetype || 'audio/wav',
+      filename: origName,
+      contentType,
     });
-    formData.append('model', 'saarika:v2.5');
+    formData.append('model', process.env.SARVAM_STT_MODEL || 'saarika:v2.5');
     formData.append('language_code', language);
 
     const response = await axios.post(`${SARVAM_BASE_URL}/speech-to-text`, formData, {
+      timeout: SARVAM_HTTP_TIMEOUT_MS,
       headers: {
         'api-subscription-key': SARVAM_API_KEY,
         ...formData.getHeaders(),
@@ -90,6 +109,7 @@ Assume the user is a beginner.`;
         reasoning_effort: null,
       },
       {
+        timeout: SARVAM_HTTP_TIMEOUT_MS,
         headers: {
           Authorization: `Bearer ${SARVAM_API_KEY}`,
           'api-subscription-key': SARVAM_API_KEY,
@@ -121,6 +141,7 @@ app.post('/tts', async (req, res) => {
       model: 'bulbul:v3',
       output_audio_codec: 'wav',
     }, {
+      timeout: SARVAM_HTTP_TIMEOUT_MS,
       headers: {
         'api-subscription-key': SARVAM_API_KEY,
         'Content-Type': 'application/json',
