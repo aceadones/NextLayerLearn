@@ -24,15 +24,18 @@ jest.mock('react-native-fs', () => ({
   unlink: jest.fn().mockResolvedValue(undefined),
 }));
 
-jest.mock('react-native-audio-recorder-player', () => ({
+jest.mock('react-native-nitro-sound', () => ({
   __esModule: true,
   default: {
+    setSubscriptionDuration: jest.fn(),
     startRecorder: jest.fn().mockResolvedValue('/tmp/test.wav'),
     stopRecorder: jest.fn().mockResolvedValue('/tmp/test.wav'),
     startPlayer: jest.fn().mockResolvedValue(undefined),
     stopPlayer: jest.fn().mockResolvedValue(undefined),
     addPlayBackListener: jest.fn(),
     removePlayBackListener: jest.fn(),
+    addPlaybackEndListener: jest.fn(),
+    removePlaybackEndListener: jest.fn(),
   },
 }));
 

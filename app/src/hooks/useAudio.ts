@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import audioRecorderPlayer from 'react-native-audio-recorder-player';
-import type { PlayBackType } from 'react-native-audio-recorder-player';
+import Sound from 'react-native-nitro-sound';
 import { Platform, PermissionsAndroid } from 'react-native';
 import RNFS from 'react-native-fs';
 
@@ -22,10 +21,12 @@ export const useAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+    Sound.setSubscriptionDuration(0.05);
     return () => {
-      audioRecorderPlayer.removePlayBackListener();
-      audioRecorderPlayer.stopRecorder();
-      audioRecorderPlayer.stopPlayer();
+      Sound.removePlayBackListener();
+      Sound.removePlaybackEndListener();
+      Sound.stopRecorder();
+      Sound.stopPlayer();
     };
   }, []);
 
@@ -56,7 +57,7 @@ export const useAudio = () => {
     }
 
     try {
-      const result = await audioRecorderPlayer.startRecorder();
+      const result = await Sound.startRecorder();
       setIsRecording(true);
       return result;
     } catch (error) {
@@ -66,7 +67,7 @@ export const useAudio = () => {
 
   const stopRecording = async () => {
     try {
-      const result = await audioRecorderPlayer.stopRecorder();
+      const result = await Sound.stopRecorder();
       setIsRecording(false);
       return result;
     } catch (error) {
@@ -83,17 +84,16 @@ export const useAudio = () => {
         uri = Platform.OS === 'android' ? `file://${path}` : path;
       }
 
-      audioRecorderPlayer.removePlayBackListener();
-      await audioRecorderPlayer.stopPlayer();
-      await audioRecorderPlayer.startPlayer(uri);
+      Sound.removePlayBackListener();
+      Sound.removePlaybackEndListener();
+      await Sound.stopPlayer();
+      await Sound.startPlayer(uri);
       setIsPlaying(true);
 
-      audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-        if (e.duration > 0 && e.currentPosition >= e.duration - 50) {
-          audioRecorderPlayer.stopPlayer();
-          audioRecorderPlayer.removePlayBackListener();
-          setIsPlaying(false);
-        }
+      Sound.addPlaybackEndListener(() => {
+        Sound.removePlayBackListener();
+        Sound.removePlaybackEndListener();
+        setIsPlaying(false);
       });
     } catch (error) {
       console.error('Failed to play audio', error);

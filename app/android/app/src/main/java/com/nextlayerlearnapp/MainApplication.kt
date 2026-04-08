@@ -21,7 +21,7 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-    // Nitro extension libs (e.g. react-native-audio-recorder-player) load native code in static
+    // Nitro extension libs (e.g. react-native-nitro-sound) load native code in static
     // initializers when packages are constructed. Core Nitro must be loaded first.
     JNIOnLoad.initializeNativeNitro()
     loadReactNative(this)
