@@ -57,7 +57,7 @@ export const LearnScreen = () => {
         </Typography>
 
         <View className={`p-4 rounded-2xl mb-8 ${highContrast ? 'bg-gray-800 border-2 border-white' : 'bg-primary/20'}`}>
-          <Typography variant="h3" className="text-center font-bold">
+          <Typography variant="h3" className="text-center">
             {t('completedTopics', language, completedTopicsCount.toString())}
           </Typography>
         </View>

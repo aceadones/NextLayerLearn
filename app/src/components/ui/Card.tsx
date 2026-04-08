@@ -24,7 +24,7 @@ export const Card = ({ title, subtitle, className = '', icon, ...props }: CardPr
     >
       <View className="flex-row items-center justify-between">
         <View className="flex-1 pr-4">
-          <Typography variant="h3" className={`${textClass} font-bold mb-2`}>
+          <Typography variant="h3" className={`${textClass} mb-2`}>
             {title}
           </Typography>
           {subtitle && (

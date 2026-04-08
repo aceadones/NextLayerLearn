@@ -46,7 +46,7 @@ export const useAppStore = create<AppState>()(
       language: 'hi-IN',
       setLanguage: (lang) => set({ language: lang }),
 
-      textSize: 'large',
+      textSize: 'medium',
       setTextSize: (size) => set({ textSize: size }),
 
       highContrast: false,

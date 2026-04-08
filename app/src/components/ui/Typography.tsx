@@ -13,24 +13,46 @@ export const Typography = ({ variant = 'body', className = '', children, ...prop
   const highContrast = useAppStore((s) => s.highContrast);
 
   let baseSizeClass = '';
-  
+
   if (textSize === 'small') {
-    baseSizeClass = variant === 'h1' ? 'text-3xl' : variant === 'h2' ? 'text-2xl' : variant === 'h3' ? 'text-xl' : variant === 'caption' ? 'text-sm' : 'text-base';
+    baseSizeClass =
+      variant === 'h1'
+        ? 'text-lg'
+        : variant === 'h2'
+          ? 'text-base'
+          : variant === 'h3'
+            ? 'text-sm'
+            : variant === 'caption'
+              ? 'text-xs'
+              : 'text-sm';
   } else if (textSize === 'medium') {
-    baseSizeClass = variant === 'h1' ? 'text-4xl' : variant === 'h2' ? 'text-3xl' : variant === 'h3' ? 'text-2xl' : variant === 'caption' ? 'text-base' : 'text-lg';
+    baseSizeClass =
+      variant === 'h1'
+        ? 'text-2xl'
+        : variant === 'h2'
+          ? 'text-lg'
+          : variant === 'h3'
+            ? 'text-base'
+            : variant === 'caption'
+              ? 'text-sm'
+              : 'text-base';
   } else {
-    // Large (default)
-    baseSizeClass = variant === 'h1' ? 'text-5xl' : variant === 'h2' ? 'text-4xl' : variant === 'h3' ? 'text-3xl' : variant === 'caption' ? 'text-lg' : 'text-xl';
+    baseSizeClass =
+      variant === 'h1'
+        ? 'text-3xl'
+        : variant === 'h2'
+          ? 'text-xl'
+          : variant === 'h3'
+            ? 'text-lg'
+            : variant === 'caption'
+              ? 'text-base'
+              : 'text-lg';
   }
 
-  const weightClass = variant.startsWith('h') ? 'font-bold' : 'font-normal';
   const colorClass = highContrast ? 'text-white' : 'text-textPrimary';
 
   return (
-    <Text 
-      className={`${baseSizeClass} ${weightClass} ${colorClass} ${className}`}
-      {...props}
-    >
+    <Text className={`${baseSizeClass} font-normal ${colorClass} ${className}`} {...props}>
       {children}
     </Text>
   );

@@ -23,22 +23,22 @@ export const ProfileScreen = () => {
   return (
     <View className="flex-1 bg-background">
       <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 100 }}>
-        <Typography variant="h1" className="mb-8 font-bold text-primary">
+        <Typography variant="h1" className="mb-8 text-primary">
           {t('profile', language)}
         </Typography>
 
         {/* Profile Info */}
         <View className={`p-6 rounded-3xl mb-8 ${highContrast ? 'bg-gray-900 border-2 border-white' : 'bg-card'}`}>
-          <Typography variant="h3" className="mb-4 font-bold">{t('whatToCallYou', language)}</Typography>
+          <Typography variant="h3" className="mb-4">{t('whatToCallYou', language)}</Typography>
           <TextInput
-            className={`rounded-2xl p-4 mb-4 text-xl font-bold ${highContrast ? 'text-white border-2 border-white bg-black' : 'text-primary bg-background'}`}
+            className={`rounded-2xl p-4 mb-4 text-base ${highContrast ? 'text-white border-2 border-white bg-black' : 'text-primary bg-background'}`}
             value={userName}
             onChangeText={setUserName}
             placeholder={t('namePlaceholder', language)}
             placeholderTextColor={highContrast ? '#cccccc' : '#64748b'}
           />
           <TextInput
-            className={`rounded-2xl p-4 text-xl font-bold ${highContrast ? 'text-white border-2 border-white bg-black' : 'text-primary bg-background'}`}
+            className={`rounded-2xl p-4 text-base ${highContrast ? 'text-white border-2 border-white bg-black' : 'text-primary bg-background'}`}
             value={userAge}
             onChangeText={setUserAge}
             placeholder={t('agePlaceholder', language)}
@@ -49,7 +49,7 @@ export const ProfileScreen = () => {
 
         {/* Language Selection */}
         <View className={`p-6 rounded-3xl mb-8 ${highContrast ? 'bg-gray-900 border-2 border-white' : 'bg-card'}`}>
-          <Typography variant="h3" className="mb-4 font-bold">Language</Typography>
+          <Typography variant="h3" className="mb-4">Language</Typography>
           {LANGUAGES.map((lang) => (
             <TouchableOpacity
               key={lang.code}
@@ -76,7 +76,7 @@ export const ProfileScreen = () => {
 
         {/* Text Size */}
         <View className={`p-6 rounded-3xl mb-8 ${highContrast ? 'bg-gray-900 border-2 border-white' : 'bg-card'}`}>
-          <Typography variant="h3" className="mb-4 font-bold">{t('textSize', language)}</Typography>
+          <Typography variant="h3" className="mb-4">{t('textSize', language)}</Typography>
           <View className="flex-row justify-between">
             {(['small', 'medium', 'large'] as const).map((size) => (
               <TouchableOpacity
@@ -105,7 +105,7 @@ export const ProfileScreen = () => {
 
         {/* High Contrast */}
         <View className={`p-6 rounded-3xl mb-8 flex-row items-center justify-between ${highContrast ? 'bg-gray-900 border-2 border-white' : 'bg-card'}`}>
-          <Typography variant="h3" className="font-bold">{t('highContrast', language)}</Typography>
+          <Typography variant="h3">{t('highContrast', language)}</Typography>
           <Switch
             value={highContrast}
             onValueChange={setHighContrast}

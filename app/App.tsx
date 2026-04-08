@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { OnboardingFlow } from './src/components/OnboardingFlow';
@@ -16,6 +17,9 @@ const Tab = createBottomTabNavigator();
 
 function MainTabs() {
   const { language, highContrast } = useAppStore();
+  const insets = useSafeAreaInsets();
+  // Clear home indicator / gesture bar + a little breathing room
+  const tabBarBottomPad = insets.bottom + 14;
 
   const bgColor = highContrast ? '#000000' : '#121922';
   const activeColor = highContrast ? '#ffffff' : '#A3BBD9';
@@ -31,22 +35,22 @@ function MainTabs() {
           else if (route.name === 'Translate') iconName = 'translate';
           else if (route.name === 'Chat') iconName = 'chat-processing';
           
-          return <Icon name={iconName} size={32} color={color} />;
+          return <Icon name={iconName} size={26} color={color} />;
         },
         tabBarActiveTintColor: activeColor,
         tabBarInactiveTintColor: inactiveColor,
         headerShown: false,
         tabBarStyle: {
-          height: 80,
-          paddingBottom: 20,
-          paddingTop: 10,
+          paddingTop: 8,
+          paddingBottom: tabBarBottomPad,
+          minHeight: 52 + tabBarBottomPad,
           backgroundColor: bgColor,
           borderTopWidth: 1,
           borderTopColor: highContrast ? '#333333' : '#1e293b',
         },
         tabBarLabelStyle: {
-          fontSize: 16,
-          fontWeight: 'bold',
+          fontSize: 13,
+          fontWeight: '400',
         },
       })}
     >
@@ -100,8 +104,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MainTabs />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <MainTabs />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

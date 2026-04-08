@@ -38,10 +38,10 @@ export const LargeButton = ({ title, className = '', variant = 'primary', ...pro
 
   return (
     <TouchableOpacity
-      className={`rounded-2xl py-5 px-6 items-center justify-center active:opacity-80 ${bgClass} ${className}`}
+      className={`rounded-2xl py-4 px-5 items-center justify-center active:opacity-80 ${bgClass} ${className}`}
       {...props}
     >
-      <Typography variant="h3" className={`${textClass} font-bold text-center`}>
+      <Typography variant="h3" className={`${textClass} text-center`}>
         {title}
       </Typography>
     </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Animated, Easing } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { useAppStore } from '../store/useAppStore';
 import { Typography } from './ui/Typography';
 import { LargeButton } from './ui/LargeButton';
@@ -39,14 +39,22 @@ export function OnboardingFlow() {
 
   const renderStep1 = () => (
     <View className="flex-1 justify-center px-6">
-      <Typography variant="h1" className="text-center mb-12 text-primary">
+      <Typography variant="h1" className="text-center mb-8 text-primary">
         NextLayer Learn
       </Typography>
-      <View className="mb-10">
-        <Typography variant="h2" className="text-center mb-2">Choose your language</Typography>
-        <Typography variant="h2" className="text-center mb-2">अपनी भाषा चुनें</Typography>
-        <Typography variant="h2" className="text-center mb-2">உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்</Typography>
-        <Typography variant="h2" className="text-center">നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക</Typography>
+      <View className="mb-8">
+        <Typography variant="body" className="text-center mb-1 opacity-90">
+          Choose your language
+        </Typography>
+        <Typography variant="body" className="text-center mb-1 opacity-90">
+          अपनी भाषा चुनें
+        </Typography>
+        <Typography variant="body" className="text-center mb-1 opacity-90">
+          உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்
+        </Typography>
+        <Typography variant="body" className="text-center opacity-90">
+          നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക
+        </Typography>
       </View>
       {LANGUAGES.map((lang) => (
         <LargeButton
@@ -62,13 +70,13 @@ export function OnboardingFlow() {
 
   const renderStep2 = () => (
     <View className="flex-1 justify-center px-6 items-center">
-      <View className="bg-card p-10 rounded-full mb-10">
-        <Icon name="microphone" size={120} color={highContrast ? '#ffffff' : '#A3BBD9'} />
+      <View className="bg-card p-8 rounded-full mb-8">
+        <Icon name="microphone" size={88} color={highContrast ? '#ffffff' : '#A3BBD9'} />
       </View>
-      <Typography variant="h1" className="text-center mb-6">
+      <Typography variant="h2" className="text-center mb-4">
         {t('micPermissionTitle', language)}
       </Typography>
-      <Typography variant="h3" className="text-center mb-12 opacity-80">
+      <Typography variant="body" className="text-center mb-10 opacity-80">
         {t('micPermissionDesc', language)}
       </Typography>
       <LargeButton
@@ -86,7 +94,7 @@ export function OnboardingFlow() {
       </Typography>
       
       <TextInput
-        className={`bg-card rounded-2xl p-6 mb-6 text-2xl font-bold ${highContrast ? 'text-white border-2 border-white' : 'text-primary'}`}
+        className={`bg-card rounded-2xl p-4 mb-4 text-base ${highContrast ? 'text-white border-2 border-white' : 'text-primary'}`}
         placeholder={t('namePlaceholder', language)}
         placeholderTextColor={highContrast ? '#cccccc' : '#64748b'}
         value={userName}
@@ -94,7 +102,7 @@ export function OnboardingFlow() {
       />
       
       <TextInput
-        className={`bg-card rounded-2xl p-6 mb-12 text-2xl font-bold ${highContrast ? 'text-white border-2 border-white' : 'text-primary'}`}
+        className={`bg-card rounded-2xl p-4 mb-8 text-base ${highContrast ? 'text-white border-2 border-white' : 'text-primary'}`}
         placeholder={t('agePlaceholder', language)}
         placeholderTextColor={highContrast ? '#cccccc' : '#64748b'}
         value={userAge}

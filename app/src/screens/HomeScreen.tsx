@@ -65,7 +65,7 @@ export const HomeScreen = () => {
           <TouchableOpacity className="p-2">
             <Icon name="menu" size={32} color={highContrast ? '#ffffff' : '#A3BBD9'} />
           </TouchableOpacity>
-          <Typography variant="h2" className="text-primary font-bold">
+          <Typography variant="h2" className="text-primary">
             NextLayer Learn
           </Typography>
           <TouchableOpacity className="p-2">

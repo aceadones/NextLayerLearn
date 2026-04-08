@@ -54,7 +54,7 @@ export const ChatScreen = () => {
     <View className="flex-1 bg-background">
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 py-4 border-b border-card">
-        <Typography variant="h2" className="font-bold text-primary">
+        <Typography variant="h2" className="text-primary">
           {t('tabChat', language)}
         </Typography>
         <TouchableOpacity onPress={() => useAppStore.getState().clearHistory()}>
@@ -71,7 +71,7 @@ export const ChatScreen = () => {
         {chatHistory.length === 0 && (
           <View className="flex-1 justify-center items-center mt-20">
             <Icon name="chat-processing-outline" size={80} color={highContrast ? '#ffffff' : '#A3BBD9'} className="opacity-50" />
-            <Typography variant="h3" className="text-center mt-4 opacity-50">
+            <Typography variant="body" className="text-center mt-4 opacity-50">
               Start a conversation...
             </Typography>
           </View>
@@ -94,7 +94,7 @@ export const ChatScreen = () => {
                 }`}
               >
                 <Typography
-                  variant="h3"
+                  variant="body"
                   className={
                     isUser
                       ? (highContrast ? 'text-black' : 'text-background')
@@ -128,7 +128,7 @@ export const ChatScreen = () => {
       {/* Input Area */}
       <View className={`flex-row items-center px-4 py-4 border-t ${highContrast ? 'border-white bg-black' : 'border-card bg-background'}`}>
         <TextInput
-          className={`flex-1 rounded-full px-6 py-4 text-xl mr-4 ${highContrast ? 'bg-gray-900 text-white border-2 border-white' : 'bg-card text-primary'}`}
+          className={`flex-1 rounded-full px-4 py-3 text-base mr-3 ${highContrast ? 'bg-gray-900 text-white border-2 border-white' : 'bg-card text-primary'}`}
           placeholder="Type a message..."
           placeholderTextColor={highContrast ? '#cccccc' : '#64748b'}
           value={inputText}
